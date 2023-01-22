@@ -1,0 +1,163 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,latexsym,paralist}
+
+\DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{solution}{Solution}
+\newtheorem*{resources}{Resources}
+
+\newcommand{\name}[1]{\noindent\textbf{Name: #1}}
+\newcommand{\honor}{\noindent On my honor, as an Aggie, I have neither
+  given nor received any unauthorized aid on any portion of the
+  academic work included in this assignment. Furthermore, I have
+  disclosed all resources (people, books, web sites, etc.) that have
+  been used to prepare this homework. The work shown here is entirely
+  my own, and is written in my own words.\\[1ex]
+ \textbf{Signature:} \underline{\hspace*{5cm}} }
+
+\newcommand{\problemset}[1]{\begin{center}\textbf{Problem Set #1}\end{center}}
+\newcommand{\duedate}[1]{\begin{quote}\textbf{Due date:} Electronic
+    submission the .pdf file of this homework is due on \textbf{#1} on canvas
+    (as a turnitin assignment).\end{quote}}
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+
+\begin{document}
+\problemset{1}
+\centerline{CSCE 411/629 (Dr. Klappenecker) }
+
+\duedate{Friday, 1/27, 11:59pm}
+\name{ (Huy Quang Lai)}
+\begin{resources}
+Perusall\\
+Cormen, Thomas H., Leiserson, Charles E., Rivest, Ronald L., Stein, Clifford. \textit{Introduction to Algorithms}. The MIT Press.
+\end{resources}
+\honor
+
+\newpage%
+\noindent Get familiar with \LaTeX. All exercises in this homework are from the lecture
+notes on perusall, not from our textbook. \medskip
+
+\noindent\textbf{Reading assignment:} Carefully read the lecture notes
+\verb|dm_ch11.pdf| on Perusall. Skim Appendices A and B in the textbook. 
+
+\begin{problem}
+Exercise 11.3 (in notes on perusall)\\
+Let $f(n)=n^2+2n,g(n)=n^2$\\
+Is $f\sim g$?
+\begin{solution}
+$\displaystyle\lim_{n\to\infty}\frac{f(n)}{g(n)}=\lim_{n\to\infty}\frac{n^2+2n}{n^2}=\lim_{n\to\infty}\left(1+\frac{1}{n}\right)=1$
+
+\noindent
+$\displaystyle\because\lim_{n\to\infty}\frac{f(n)}{g(n)}=1$\\
+$\therefore$ Ernie is correct.
+\end{solution}
+\end{problem}
+
+\begin{problem}
+Exercise 11.9 (in notes on perusall)
+\begin{enumerate}[(a)]
+    \item $\displaystyle f(n)=(-1)^n$
+    \item $\displaystyle f(n)=4+\frac{(-1)^nn}{n+10}$
+    \item $\displaystyle f(n)=\left((-1)^n+(-1)^{\left\lfloor\frac{n}{2}\right\rfloor}\right)\left(1+\frac{1}{n}\right)$
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item When $n$ is even, $f(n)=1$. Similarly, when $n$ is odd, $f(n)=-1$.\\
+    $\therefore$ the accumulation points for $f(n)$ are $-1$, the lower accumulation point, and $1$, the upper accumulation point.
+
+    \item $\displaystyle\because\lim_{n\to\infty}\left(\frac{n}{n+10}\right)=1$\\
+    $\displaystyle\therefore\lim_{n\to\infty}f(n)=\lim_{n\to\infty}(4+(-1)^n)$.\\
+    With this result in combination with the result from 2.a, there are two accumulation points. $3$ is the lower accumulation point and $5$ is the upper accumulation point.
+
+    \clearpage
+    \item There are four different sub-sequences that exhibit different behaviors.
+    \begin{flalign*}
+    f(4n)   &=\left((-1)^{4n}+(-1)^{\left\lfloor\frac{4n}{2}\right\rfloor}\right)\left(1+\frac{1}{4n}\right) &\\
+            &=\left(1+(-1)^{2n}\right)\left(1+\frac{1}{4n}\right) &\\
+            &=2\left(1+\frac{1}{4n}\right)
+    \end{flalign*}
+
+    \begin{flalign*}
+    f(4n+1) &=\left((-1)^{4n+1}+(-1)^{\left\lfloor\frac{4n+1}{2}\right\rfloor}\right)\left(1+\frac{1}{4n+1}\right) &\\
+            &=\left(-1+(-1)^{2n}\right)\left(1+\frac{1}{4n+1}\right) &\\
+            &=0\left(1+\frac{1}{4n+1}\right) &\\ &=0
+    \end{flalign*}
+
+    \begin{flalign*}
+    f(4n+2) &=\left((-1)^{4n+2}+(-1)^{\left\lfloor\frac{4n+2}{2}\right\rfloor}\right)\left(1+\frac{1}{4n+2}\right) &\\
+            &=\left(1+(-1)^{2n+1}\right)\left(1+\frac{1}{4n+2}\right) &\\
+            &=\left(1-1\right)\left(1+\frac{1}{4n+2}\right) &\\
+            &=0\left(1+\frac{1}{4n+2}\right) &\\ &=0
+    \end{flalign*}
+
+    \begin{flalign*}
+    f(4n+3) &=\left((-1)^{4n+3}+(-1)^{\left\lfloor\frac{4n+3}{2}\right\rfloor}\right)\left(1+\frac{1}{4n+3}\right) &\\
+            &=\left(-1+(-1)^{2n+1}\right)\left(1+\frac{1}{4n+3}\right) &\\
+            &=\left(-1-1\right)\left(1+\frac{1}{4n+3}\right) &\\
+            &=-2\left(1+\frac{1}{4n+3}\right)
+    \end{flalign*}
+
+    Both $f(4n+1)$ and $f(4n+2)$ give an accumulation point of $0$.\\
+    $f(4n)$ yields an accumulation point of $2$ while $f(4n+3)$ yields an accumulation point of $-2$.\\
+    $\therefore-2$ is a lower accumulation point and $2$ is an upper accumulation point.
+\end{enumerate}
+\end{solution}
+\end{problem}
+
+\clearpage
+\begin{problem}
+Exercise 11.17 (in notes on perusall)\\
+Let $b$ and $d$ be positive real numbers that are not equal to 1.
+\begin{enumerate}[(a)]
+    \item Show that $\displaystyle\Theta(\log_b n)=\Theta(\log_d n)$
+    \item Does $\displaystyle\Theta\left(n^{\log_b n}\right)=\Theta\left(n^{\log_d n}\right)$ hold in general?
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}[(a)]
+    \item Using the change of base rule for logarithms, this yeilds:
+    \[\log_b n=\frac{\log_d n}{\log_d b}\]
+    $\because\log_d b$ is a constant\\
+    $\therefore\Theta(\log_b n)=\Theta(\log_d n)$
+
+    \item The equality only holds if $b=d$\\
+    If $b>d>1$, then
+    \[\limsup_{n\to\infty}\frac{n^{\log_b n}}{n^{\log_d n}}=+\infty\]
+    
+    $\therefore n^{\log_b n}\not\in \Theta(\log_d n)$.\\
+    This result leads to:\\
+    $\Theta\left(n^{\log_b n}\right)\neq\Theta\left(n^{\log_d n}\right)$\\
+    $\qed$
+\end{enumerate}
+\end{solution}
+\end{problem}
+
+\begin{problem}
+Exercise 11.19 (in notes on perusall)\\
+Show that for all positive integers $k$, we have
+\[1^k+2^k+\cdots+n^k=\Theta(n^{k+1})\]
+\begin{solution}
+\end{solution}
+For all positive integers $k$, the function $x^k$ is increasing.\\
+Therefore,
+\[\frac{1}{k+1}x^{k+1}=\int_0^nx^kdx\leq\sum_{m=1}^nm^k\]
+holds for all $n\geq1$
+\end{problem}
+
+\begin{problem}
+Exercise 11.34 (in notes on perusall)\\
+Prove or disprove: $\displaystyle n^{\ln n}\in O\left(e^{\ln^2n}\right)$
+\begin{solution}
+\begin{flalign*}
+n^{\ln n}   &=e^{\ln(n^{\ln n})}    &\\
+            &=e^{\ln^2n}            &
+\end{flalign*}
+$\therefore n^{\ln n}\in O\left(e^{\ln^2n}\right)$\\
+$\qed$
+\end{solution}
+\end{problem}
+\end{document}
