@@ -41,9 +41,8 @@
 \begin{document}
 \problemset{6}
 \duedate{3/10/2023 before 11:59pm}
-\name{ (put your name here)}
-\begin{resources} (All people, books, articles, web pages, etc. that
-  have been consulted when producing your answers to this homework)
+\name{ Huy Quang Lai }
+\begin{resources} Cormen, Thomas H., Leiserson, Charles E., Rivest, Ronald L., Stein, Clifford. \textit{Introduction to Algorithms}. The MIT Press.
 \end{resources}
 \honor
 
@@ -59,6 +58,10 @@ words, and that the work presented is your own!} Typesetting in
   operations continue to hold?
 \end{problem}
 \begin{solution}
+The $O(1)$ bound on the amortized cost of stack operations would \textbf{NOT} continue to hold.
+
+\noindent
+The time complexity of such a series of operations depends on the number of pushes could be made. Since one \verb+MULTIPUSH+ needs $O(k)$ time, performing $n$ \verb+MULTIPUSH+ operations would take $O(kn)$ time, leading to amortized cost of $O(k)$.
 \end{solution}
 
 \begin{problem}[20 points]
@@ -68,6 +71,11 @@ words, and that the work presented is your own!} Typesetting in
   time.
 \end{problem}
 \begin{solution}
+In the worst case \verb+INCREMENT+ needs to flip all ones to zeros. Example $0111111\to1000000$.\\
+Likewise for \verb+DECREMENT+ needs to flip all zeros to ones. Example $1000000\to0111111$.
+Both of these are both $\Theta(k)$ for $k$-bit counters.\\
+Therefore, alternating between \verb+INCREMENT+ and \verb+DECREMENT+ is $\Theta(nk)$
+
 \end{solution}
 
 \begin{problem}[20 points] \label{base}
@@ -77,32 +85,64 @@ words, and that the work presented is your own!} Typesetting in
   amortized cost per operation.
 \end{problem}
 \begin{solution}
+In a sequence of $n$ operations there are $\lfloor\log_2n\rfloor+1$ exact powers of $2$. 
+They are: $2^0,2^1,2^2,\cdots,2^{\lfloor\log_2n\rfloor}$\\
+The total cost of the cost is a geometric sum:
+\[\sum_{i=0}^{\lfloor\log_2n\rfloor}2^i=2^{\lfloor\log_2n\rfloor+1}-1\leq2^{\log_2 n+1}=2n\]
+The rest of the operations are $O(1)$. Of there operations there are at most $n$.
+The total cost of all operations is $T(n)\leq2n+n=3n\in O(n)$.\\
+This leads to an amortized cost per operation of $O(1)$.
 \end{solution}
 
+\clearpage
 \begin{problem}[20 points]
  Redo Problem~\ref{base} using an accounting method of analysis.
 \end{problem}
 \begin{solution}
+The actual cost of the $i$th operations is
+\[c_i=\begin{cases}
+i & \text{if }i=2^k,k\in\mathbb{Z^+} \\
+1 & \text{otherwise}
+\end{cases}\]
+Assigning amortized costs as follows:
+\[\hat{c_i}=\begin{cases}
+2 & \text{if }i=2^k,k\in\mathbb{Z^+} \\
+3 & \text{otherwise}
+\end{cases}\]
+
+\noindent
+Under this definition, when $i$ is an exact power of 2, the operation uses all previously accumulated credit plus one unit of its own amortized cost to pay its true cost. It then assigns the remaining unit as credit.\\
+
+\noindent
+When $i$ is not an exact power of 2, then the operation uses one unit to pay its actual cost and assigns the remaining two units as credit. This covers the actual cost of the operation.\\
+
+\noindent
+Therefore, the amortized cost of each operation is $O(1)$.    
+
 \end{solution}
 
 \begin{problem}[20 points]
 Redo Problem~\ref{base} using a potential method of analysis.
 \end{problem}
 \begin{solution}
+The potential function is defined as follows:
+\[\Phi(D_0)=0 \text{ and } \Phi(D_i)=2i-2^{\lfloor\log_2 i\rfloor+1}+1 \text{ for } i>0\]
+Since this potential function is always nonnegative, $\Phi(D_i)\geq\Phi(D_0)\forall i$
+
+\noindent
+When $i$ is an exact power of 2, the potential difference is
+\[\Phi(D_i)-\Phi(D_{i-1})=(2i-2i+1)-(2(i-1)-(i-1))=2-i\]
+Therefore, the amortized cost of the $i$th operation is 
+\[\hat{c_i}=c_i+\Phi(D_i)-\Phi(D_{i-1})=i+2-i=2\]
 \end{solution}
 
+\noindent
+When $i$ is not an exact power of 2, the potential difference is
+\[\Phi(D_i)-\Phi(D_{i-1})=(2i-i+1)-(2(i-1)-(i-1))=2\]
+Therefore, the amortized cost of the $i$th operation is
+\[\hat{c_i}=c_i+\Phi(D_i)-\Phi(D_{i-1})=1+2=3\]
 
-Discussions on canvas are always encouraged, especially to clarify
-concepts that were introduced in the lecture. However, discussions of
-homework problems on canvas should not contain spoilers. It is okay to
-ask for clarifications concerning homework questions if needed. Make
-sure that you write the solutions in your own words. 
+\noindent
+With this result, the amortized cost of each operation is $O(1)$.
 
-
-\medskip
-
-
-
-\goodbreak
-\checklist
 \end{document}

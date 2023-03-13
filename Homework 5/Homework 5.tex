@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath,amssymb,amsthm,latexsym,paralist}
+\usepackage{minted}
 
 \theoremstyle{definition}
 \newtheorem{problem}{Problem}
@@ -41,9 +42,8 @@
 \begin{document}
 \problemset{5}
 \duedate{2/24/2023 before 11:59pm}
-\name{ (put your name here)}
-\begin{resources} (All people, books, articles, web pages, etc. that
-  have been consulted when producing your answers to this homework)
+\name{Huy Quang Lai}
+\begin{resources} Cormen, Thomas H., Leiserson, Charles E., Rivest, Ronald L., Stein, Clifford. \textit{Introduction to Algorithms}. The MIT Press.
 \end{resources}
 \honor
 
@@ -58,8 +58,40 @@ chapters 15 and 16 in our textbook.
   Explain how you found the solution.
 \end{problem}
 \begin{solution}
+Let $A=5\times10$ matrix,
+$B=10\times3$ matrix,
+$C=3\times12$ matrix,
+$D=12\times5$ matrix,
+$E=5\times50$ matrix,
+$F=50\times6$ matrix
+
+\noindent
+The most optimal parenthesization of the matrix chain is
+\[(AB)\left((CD)(EF)\right)\]
 \end{solution}
 
+\noindent
+With this order, the three largest dimensions of 10, 12, and 50 are absorbed before they can make any other matrix multiplication take more operations. With this approach, we get the optimal 2010 operations.
+
+\noindent
+$AB$ is a $5\times3$ matrix that requires $5\times10\times3=150$ operations to compute.\\
+$CD$ is a $3\times5$ matrix that requires $3\times12\times5=180$ operations to compute.\\
+$EF$ is a $5\times6$ matrix that requires $5\times50\times6=1500$ operations to compute.
+
+\noindent
+From here, there is a choice to group $(AB)(CD)$ or $(CD)(EF)$\\
+$(AB)(CD)$ is a $5\times5$ matrix that requires an additional $5\times3\times5=75$ operations to compute.\\
+$(CD)(EF)$ is a $3\times6$ matrix that requires an additional $3\times5\times6=90$ operations to compute.
+
+\noindent
+After this grouping a final multiplication is needed.\\
+$(AB)((CD)(EF))$ is a $5\times6$ matrix that requires an additional $5\times3\times6=90$ operations to compute.\\
+$((AB)(CD))(EF)$ is a $5\times6$ matrix that requires an additional $5\times5\times6=150$ operations to compute.
+
+\noindent
+Although more locally optimal to group $(AB)(CD)$, the grouping of $(CD)(EF)$ is more globally optimal.
+
+\clearpage
 \begin{problem}[20 points]
   Use a proof by induction to show that the solution to the
   recurrence
@@ -72,25 +104,84 @@ chapters 15 and 16 in our textbook.
     is $\Omega(2^n)$. 
 \end{problem}
 \begin{solution}
+Base Case:\\
+Let $n=2$
+\begin{flalign*}
+P(2)    &= \sum_{k=1}^{2-1}P(k)P(2-k)   &\\
+        &= P(1)P(1)                     &\\
+        &= 1 
+\end{flalign*}
+$\because1\geq2^{2-2}=2^{0}=1$\\
+$P(n)\geq2^{n-2}$ holds for $n=2$
+
+\noindent
+Inductive Case:\\
+Assume that $P(n)\geq2^{n-2}$
+\begin{flalign*}
+P(n)    &=\sum_{k=1}^{n-1}P(k)P(n-k)                                            &\\
+        &=P(1)P(n-1)+\sum_{k=2}^{n-2}P(k)P(n-k)+P(n-1)P(1)                      &\\
+        &\geq2^{n-3}+\sum_{k=2}^{n-2}\left(2^{k-2}2^{n-k-2}\right)+2^{n-3}      &\\
+        &=2^{n-2}+\sum_{k=2}^{n-2}2^{n-4}                                       &\\
+        &=2^{n-2}+2^{n-4}\sum_{k=2}^{n-2}1                                      &\\
+        &=2^{n-2}+(n-3)\left(2^{n-4}\right)                                     &\\
+        &=(n+1)2^{n-4}
+\end{flalign*}
+$\therefore P(n)\in\Omega(2^n)$\\
+$\qed   $
 \end{solution}
 
+\clearpage
 \begin{problem}[20 points]
 Let $R(i,j)$ be the number of times that table entry $m[i,j]$ is
 referenced while computing other table entries in a call of
 MATRIX-CHAIN-ORDER. Show that the total number of references for the
 entire table is
-$$ \sum_{i=1}^n\sum_{j=i}^n R(i,j) = \frac{n^3-n}{3}.$$
+\[\sum_{i=1}^n\sum_{j=i}^n R(i,j) = \frac{n^3-n}{3}.\]
 \end{problem}
 \begin{solution}
+From the textbook
+\begin{flalign*}
+\sum_{i=1}^n\sum_{j=i}^n R(i,j) &= \sum_{l=2}^{n}2(n-l+1)(l-1)                  &\\
+                                &= 2\sum_{l=1}^{n-1}l(n-l)                      &\\
+                                &= 2\sum_{l=1}^{n-1}nl-2\sum_{l=1}^{n-1}l^2     &\\
+                                &= 2n\frac{n(n-1)}{2}-2\frac{n(n-2)(2n-1)}{6}   &\\
+                                &= n^3-n^2-\frac{2n^3-3n^2+n}{3}                &\\
+                                &= \frac{n^3-n}{3}
+\end{flalign*}
+$\qed$
 \end{solution}
 
+\clearpage
 \begin{problem}[20 points]
   Give an $O(n^2)$-time algorithm to find the longest monotonically
   increasing subsequence of a sequence of n numbers.
 \end{problem}
 \begin{solution}
+\[\]
+\begin{minted}{python}
+def longSeq(seq):
+    n = len(seq)
+    L = [1 for i in range(n)]
+    for i in range(1, n):
+        for j in range(0, i):
+            if seq[j] < seq[i]:
+                L[i] = max(L[j] + 1, L[i])
+                
+    max_length = max(L)
+    current_length = max_length
+    subseq = []
+    
+    for i in range(n - 1, -1, -1):
+        if L[i] == current_length:
+            current_length -= 1
+            subseq.append(seq[i])
+    subseq.reverse()
+    return subseq
+
+\end{minted}
 \end{solution}
 
+\clearpage
 \begin{problem}[20 points]
   Describe an efficient algorithm that, given a set
   $$\{ x_1, x_2, \ldots, x_n\}$$ of $n$ points on the real line,
@@ -99,20 +190,20 @@ $$ \sum_{i=1}^n\sum_{j=i}^n R(i,j) = \frac{n^3-n}{3}.$$
   correct.
 \end{problem}
 \begin{solution}
+First, sort the set of $n$ points $\{ x_1, x_2, \ldots, x_n\}$ to get the set $Y=\{y_1, y_2, \cdots, y_n\}$ such that $y_1\leq y_2\leq\cdots\leq y_n$.\\
+Next, linearly scan over $Y$. For every $y_i\in Y$, place the closed interval $[y_i,y_i+1]$ in the optimal solution set. Call this set $S$.\\
+Remove all the points in $Y$ that are covered by $[y_i,y_i+1]$.\\
+Repeat this process for every point $y_i$ until $Y$ is empty.
+
+\noindent
+$S$ should be the optimal solution.\\
+Suppose that there exists an optimal solution $S^*$ such that $y_1$ is covered by $[x',x'+1]\in S^*$ where $x'<1$.\\
+Since $y_1$ is the left most element of the given set, there is no other point lying in $[x',y_1)$.\\
+Therefore, replacing $[x',x'+1]$ in $S^*$ with $[y_1,y_1+1]$ will result in another optimal solution.\\
+Since this idea can be applied to every point on $Y$, $S$ is the optimal solution.
+
+\noindent
+The runtime of the algorithm is $O(n\log n)$ due to the initial sort. The linear traversal of the set is $O(n)$. With this the total runtime of the algorithm is
+\[O(n\log n)\]
 \end{solution}
-
-
-Discussions on canvas are always encouraged, especially to clarify
-concepts that were introduced in the lecture. However, discussions of
-homework problems on canvas should not contain spoilers. It is okay to
-ask for clarifications concerning homework questions if needed. Make
-sure that you write the solutions in your own words. 
-
-
-\medskip
-
-
-
-\goodbreak
-\checklist
 \end{document}
