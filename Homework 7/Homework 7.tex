@@ -1,0 +1,172 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,latexsym,paralist}
+\usepackage{tikz}
+\usepackage{minted}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{solution}{Solution}
+\newtheorem*{resources}{Resources}
+
+\newcommand{\name}[1]{\noindent\textbf{Name: #1}}
+\newcommand{\honor}{\noindent On my honor, as an Aggie, I have neither
+  given nor received any unauthorized aid on any portion of the
+  academic work included in this assignment. Furthermore, I have
+  disclosed all resources (people, books, web sites, etc.) that have
+  been used to prepare this homework. \\[1ex]
+ \textbf{Signature:} \underline{\hspace*{5cm}} }
+
+ \newcommand{\checklist}{\noindent\textbf{Checklist:}
+\begin{compactitem}[$\Box$] 
+\item Did you add your name? 
+\item Did you disclose all resources that you have used? \\
+(This includes all people, books, websites, etc. that you have consulted)
+\item Did you sign that you followed the Aggie honor code? 
+\item Did you solve all problems? 
+\item Did you typeset your answers entirely in LaTeX? 
+\item Did you submit the pdf file of your homework?
+\end{compactitem}
+}
+
+
+
+\newcommand{\problemset}[1]{\begin{center}\textbf{Problem Set
+      #1}\end{center}}
+\newcommand{\duedate}[2]{\begin{quote}\textbf{Due dates:} Electronic
+    submission of the pdf file of this homework is due on
+    \textbf{#1} on canvas. The homework must be typeset with LaTeX to
+    receive any credit. All answers must be formulated in your own words.\end{quote} }
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+
+
+\begin{document}
+\problemset{7}
+\duedate{3/24/2023 before 11:59pm}
+
+\textbf{Watch out for additional material that will appear on
+  Thursday! Deadline is on Friday, as usual.} 
+
+\name{ Huy Quang Lai}
+\begin{resources} Cormen, Thomas H., Leiserson, Charles E., Rivest, Ronald L., Stein, Clifford. \textit{Introduction to Algorithms}. The MIT Press.
+\end{resources}
+\honor
+
+\newpage
+
+Read the chapters on ``Elementary Graph Algorithms'' and
+``Single-Source Shortest Paths'' in our textbook before
+attempting to answer these questions.
+
+\begin{problem}[20 points]
+Give an algorithm that determines whether or not a given undirected
+graph $G=(V,E)$ contains a cycle. Your algorithm should run in $O(V)$
+time, independent of the number $|E|$ of edges. 
+\end{problem}
+\begin{solution}
+\end{solution}
+
+\noindent
+An undirected graph is acyclic if and only if DFS yields no back edges 
+
+\begin{minted}{cpp}
+bool DFS(size_t v, size_t parent, 
+const vector<vector<size_t>>& graph, vector<bool>& visited) {
+    visited[v] = true;
+    for (size_t u : graph[v]) {
+        if (!visited[u]) {
+            if (DFS(u, v, graph, visited))
+                return true;
+        }
+        else if (u != parent)
+            return true;
+    }
+    return false;
+}
+
+bool has_cycle(const vector<vector<int>>& graph) {
+    size_t n = graph.size();
+    vector<bool> visited(n, false);
+    for (size_t v = 0; v < n; ++v)
+        if (!visited[v])
+            if (DFS(v, -1, graph, visited))
+                return true;
+    return false;
+}
+\end{minted}
+
+\begin{problem}[20 points]
+Given a weighted, directed graph $G=(V,E)$ with no negative-weight
+cycles, let $m$ be the maximum over all vertices $v\in V$ of the minimum
+number of edges in a shortest path from the source $s$ to $v$. (Here, the
+shortest path is by weight, not the number of edges.) Suggest a simple
+change to the Bellman-Ford algorithm that allows it to terminate in $m+1$
+passes, even if $m$ is not known in advance.
+\end{problem}
+\begin{solution}
+\end{solution}
+
+\noindent
+By the upper bound theory, we know that after $m$ iterations, no $d$ values will ever change.
+Therefore, under induction, no $d$ values will change in the $(m+1)$-th iteration.  
+However, since the $m$ value is not knowsn in advance, the algorithm cannot iteract exactly $m$ times and then terminate.
+
+\begin{problem}[20 points]
+Suppose that we change line 4 of Dijkstra’s algorithm in our textbook
+to the following.\\[1ex]
+4 \textbf{while} $|Q| > 1$ \\[1ex] 
+This change causes the while loop to execute $|V|-1$ times instead of
+$|V |$ times. Is this proposed algorithm correct?
+[Use the version of Dijkstra's algorithm from the textbook]
+\end{problem}
+\begin{solution}
+This proposed change will not provide a correct output.
+
+\noindent
+Dijkstra's algorithm relies on visiting all vertices in the graph to ensure that the shortest path to each vertex is found. By changing the while loop condition to $|Q|>1$, the algorithm will terminate early before all vertices have been visited.\\
+
+\noindent
+Consider a scenario where the graph has $n$ vertices and the shortest path from the source vertex to the destination vertex requires visiting all $n$ vertices. With the modified while loop condition, the algorithm would terminate after $n-1$ iterations, leaving the shortest path undiscovered.\\
+
+\noindent
+Therefore, it is essential to have the while loop execute $|V|$ times to ensure that all vertices are visited, and the algorithm finds the correct shortest paths.
+\end{solution}
+
+\clearpage
+\begin{problem}[40 points]
+  Help Professor Charlie Eppes find the most likely escape routes of
+  thieves that robbed a bookstore on Texas Avenue in College
+  Station. The map will be published on Thursday evening. In preparation, you
+  might want to implement Dijkstra's single-source shortest path
+  algorithm, so that you can join the manhunt on Thursday
+  evening. [Edge weight 1 means very desirable street, weight 2 means
+  less desirable street] 
+\end{problem}
+\begin{solution}
+Destination Nodes, 6, 8, 9, 15, 16, 22\\
+Since the graph is undirected a connection exists both ways.
+The format of the graph is \verb+source <->{destination} weight+.\\
+\begin{verbatim}
+1 <->{2} 1, 1 <->{11} 1, 2 <->{3} 1, 2 <->{21} 1, 3 <->{4} 1
+3 <->{8} 2, 4 <->{5} 1, 5 <->{6} 2, 5 <->{7} 1, 6 <->{7} 1
+7 <->{8} 1, 8 <->{9} 1, 9 <->{10} 1, 9 <->{19} 1
+10 <->{11} 1, 10 <->{18} 1, 11 <->{12} 2, 11 <->{17} 1
+12 <->{13} 2, 13 <->{14} 2, 13 <->{21} 1, 14 <->{15} 1
+14 <->{16} 1, 14 <->{20} 1, 16 <->{17} 1, 17 <->{18} 1
+18 <->{19} 2, 20 <->{21} 2, 20 <->{22} 1, 21 <->{22} 2
+\end{verbatim}
+
+\noindent
+Using Dijkstra's algorithm, results in the following shortest paths to the Destination Nodes.
+\begin{verbatim}
+1 --> 2 --> 3 --> 4 --> 5 --> 6 distance: 6
+1 --> 2 --> 3 --> 8 distance: 4
+1 --> 11 --> 10 --> 9 distance: 3
+1 --> 11 --> 17 --> 16 --> 14 --> 15 distance: 5
+1 --> 11 --> 17 --> 16 distance: 3
+1 --> 2 --> 21 --> 22 distance: 4
+\end{verbatim}
+\end{solution}
+\end{document}
