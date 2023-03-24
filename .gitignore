@@ -2,3 +2,6 @@
 Syllabus.pdf
 Textbook.pdf
 *.gpg
+*.h
+*.cpp
+Makefile
