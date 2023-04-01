@@ -1,0 +1,301 @@
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsthm,latexsym,paralist,color}
+
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+\newtheorem*{solution}{Solution}
+\newtheorem*{resources}{Resources}
+
+\newcommand{\name}[1]{\noindent\textbf{Name: #1}}
+\newcommand{\honor}{\noindent On my honor, as an Aggie, I have neither
+  given nor received any unauthorized aid on any portion of the
+  academic work included in this assignment. Furthermore, I have
+  disclosed all resources (people, books, web sites, etc.) that have
+  been used to prepare this homework. \\[1ex]
+ \textbf{Signature:} \underline{\hspace*{5cm}} }
+
+\newcommand{\checklist}{\noindent\textbf{Checklist:}
+\begin{compactitem}[$\Box$] 
+\item Did you add your name? 
+\item Did you disclose all resources that you have used? \\
+(This includes all people, books, websites, etc. that you have consulted)
+\item Did you sign that you followed the Aggie honor code? 
+\item Did you solve all problems? 
+\item Did you submit the pdf file
+  of your homework?
+\end{compactitem}
+}
+
+\newcommand{\problemset}[1]{\begin{center}\textbf{Problem Set
+      #1}\end{center}}
+\newcommand{\duedate}[2]{\begin{quote}\textbf{Due dates:} Electronic
+    submission of this homework is due on \textbf{#1} on canvas.\end{quote} }
+
+\newcommand{\N}{\mathbf{N}}
+\newcommand{\R}{\mathbf{R}}
+\newcommand{\Z}{\mathbf{Z}}
+
+\newcommand{\bl}[1]{\color{blue}#1\color{black}}
+
+\begin{document}
+\problemset{8}
+\duedate{Friday 3/31/2023 before 11:59pm}{3/31/2023}
+\name{ Huy Quang Lai}
+\begin{resources} Cormen, Thomas H., Leiserson, Charles E., Rivest, Ronald L., Stein, Clifford. \textit{Introduction to Algorithms}. The MIT Press.
+\end{resources}
+\honor
+\newpage
+
+This homework needs to be typeset in LaTeX to receive any credit. All
+answers need to be formulated in your own words. 
+
+\begin{problem}[20 points] 
+Suppose that $\Omega$ is an arbitrary sample space.
+ Let $\mathcal{F}$ denote the smallest family of subsets of
+$\Omega$ such that (i) $\mathcal{F}$ contains all finite sets, (ii)
+$\mathcal{F}$ is closed under
+complements (meaning if $A$ is in $\mathcal{F}$, then $A^c$ is in
+$\mathcal{F}$), and (iii) $\mathcal{F}$ is closed under countable
+unions (so if the sets $E_1, E_2,  \ldots$ are contained in
+$\mathcal{F}$, then $\bigcup_{k=1}^\infty E_k$ is contained in
+$\mathcal{F}$). 
+\begin{compactenum}[(a)]
+    \item Show that $\mathcal{F}$ is a $\sigma$-algebra. 
+    \item Prove of disprove: $\mathcal{F}$ is equal to the power set $P(\Omega)$. 
+\end{compactenum}
+[Hint: In your answer in (b), you might want to distinguish the cases
+(A) the sample space is finite or countably infinite and (B) the
+sample space is uncountable.] 
+\end{problem}
+\begin{solution}
+Part (a)\\
+\noindent
+To show that $\mathcal{F}$ is a $\sigma$-algebra, we need to verify that it satisfies the following three conditions:
+\begin{enumerate}
+\item $\emptyset\in\mathcal{F}$
+\item $A\in\mathcal{F}\to A^c\in\mathcal{F}$
+\item $\{A_n\}_{n=1}^{\infty}\in\mathcal{F}\to\bigcup\limits_{n=1}^{\infty}A_n\in\mathcal{F}$.
+\end{enumerate}
+We will use the given properties (i), (ii), and (iii) of $\mathcal{F}$ to show that it satisfies these three properties.
+
+\begin{enumerate}
+\item Since $\mathcal{F}$ contains all finite sets, it also contains $\emptyset$. $\therefore\emptyset\in\mathcal{F}$
+\item Let $A\in\mathcal{F}$. Then, $A$ is a finite set or a countable union of finite sets by property (i) and (iii).\\
+Since $\mathcal{F}$ is closed under complements by property (ii), $A^c\in\mathcal{F}$.
+\item Let $\{A_n\}_{n=1}^{\infty}\in\mathcal{F}$. Then, each $A_i$ is a finite set or a countable union of finite sets by property (i) and (iii). Therefore, their union $\bigcup\limits_{k=1}^{\infty} A_k$ is also a countable union of finite sets, which is in $\mathcal{F}$ by property (iii).
+\end{enumerate}
+Thus, we have shown that $\mathcal{F}$ satisfies the three properties of a $\sigma$-algebra, and therefore $\mathcal{F}$ is a $\sigma$-algebra.
+
+\clearpage
+\noindent
+Part (b)
+
+\noindent
+By proof of counterexample, $\mathcal{F}\neq P(\Omega)$.
+
+\noindent
+Let $\Omega = {a, b}$, and let $\mathcal{F}$ be the family of subsets of $\Omega$ satisfying the three properties given above. Then, we have:
+\[
+\mathcal{F} = \{\emptyset, \{a\}, \{b\}, \{a, b\}\}
+\]
+
+\noindent
+However,
+\[P(\Omega)=\{\emptyset, \{a\}, \{b\}, \{a,b\}, \{a\}\cup\{b\}, \Omega\}\]
+
+\noindent
+Note that $\mathcal{F}$ is not equal to $P(\Omega)$ since $P(\Omega)$ contains two additional sets, namely ${a}\cup{b} = {a,b}$ and $\Omega$, neither of which are finite sets.
+
+\noindent
+Therefore, we have shown that $\mathcal{F}$ is not equal to $P(\Omega)$, and thus the statement is disproved.
+\end{solution}
+
+\clearpage
+\begin{problem}[20 points] 
+Let $B_1, B_2, \ldots, B_t$ denote a partition of the sample space
+$\Omega$. 
+\begin{compactenum}[(a)]
+\item Prove that $\Pr[A] = \sum_{k=1}^t \Pr[A\mid B_k] \Pr[B_k]$. 
+\item Deduce that $\Pr[A] \le \max_{1\le k\le t} \Pr[A \mid B_k].$
+\end{compactenum}
+\end{problem}
+\begin{solution}
+Part (a)
+
+\noindent
+First, note that by the Law of Total Probability:
+\begin{align*}
+\Pr[A] &= \sum_{k=1}^t \Pr[A \cap B_k]
+\end{align*}
+
+\noindent
+Next, using the definition of conditional probability:
+\[\Pr[A\cap B_k]=\Pr[A\mid B_k]\Pr[B_k]\]
+
+\noindent
+Substituting this into the first equation, we get:
+\begin{align*}
+\Pr[A]  &= \sum_{k=1}^t \Pr[A \cap B_k]\ \\
+        &= \sum_{k=1}^t \Pr[A \mid B_k] \Pr[B_k]
+\end{align*}
+$\qed$
+
+\noindent
+Part (b)
+Starting with the expression obtained in the previous question:
+\[\Pr[A] = \sum_{k=1}^t\Pr[A\mid B_k]\Pr[B_k]\]
+
+\noindent
+Since all probabilities are non-negative, we can remove all but the largest term on the right-hand side of the inequality to obtain:
+\begin{align*}
+\Pr[A] &\leq \Pr[A \mid B_j] \Pr[B_j] + \sum_{k \neq j} \Pr[A \mid B_k] \Pr[B_k] &&\text{for some }j \in {1, 2, \ldots, t}\\
+&\leq \Pr[A \mid B_j] \sum_{k=1}^t \Pr[B_k] &&\text{by the distributive law}\\
+&= \Pr[A \mid B_j] &&\text{since }\sum_{k=1}^t \Pr[B_k] = 1
+\end{align*}
+
+\noindent
+Therefore, $\Pr[A]\leq\max_{1\leq k\leq t}\Pr[A\mid B_k]$, since we can choose $j$ to be the index of the term that gives the maximum conditional probability.
+\end{solution}
+
+\clearpage
+\begin{problem}[20 points] 
+Consider an experiment, where you toss two fair coins. 
+Give examples of events where (a) $\Pr[A_1 \mid B_1] < \Pr[A_1]$, 
+(b) $\Pr[A_2 \mid B_2] =  \Pr[A_2]$, and (c) $\Pr[A_3 \mid B_3] > \Pr[A_3]$. Make
+sure that your proofs are complete and self-contained. 
+\end{problem}
+\begin{solution}
+Part (a)
+\noindent
+Let $A_1$ be the event that only one coin comes up heads, and let $B_1$ be the event that both coins come up heads. Then:
+\begin{align*}
+\Pr[A_1] &=\frac{1}{2} \text{ (since there are two outcomes where only one coin is heads)} \\
+\Pr[A_1 \mid B_1] &=0 \text{ (since the event $B_1$ is impossible)}
+\end{align*}
+
+\noindent
+Therefore, $\Pr[A_1\mid B_1]<\Pr[A_1]$ for this example.
+
+\noindent
+Part (b). Let $A_2$ be the event that the second coin comes up heads, and let $B_2$ be the event that the first coin comes up tails. Then:
+
+\begin{itemize}
+    \item $\displaystyle\Pr[A_2] = \frac{1}{2}$ (since there are two equally likely outcomes where the second coin is heads)
+    \item $\displaystyle\Pr[B_2] = \frac{1}{2}$ (since there are two equally likely outcomes where the first coin is tails)
+    \item $\displaystyle\Pr[A_2 \cap B_2] = \frac{1}{4}$ (since there is only one outcome where both $A_2$ and $B_2$ occur, which is when the coins are HT)
+\end{itemize}
+$\Pr[A_2|B_2]$ is found using the following formula
+\[
+\Pr[A_2|B_2]=\frac{\Pr[A_2 \cap B_2]}{\Pr[B_2]}
+\]
+
+\noindent
+Plugging in the values from above
+\[\Pr[A_2|B_2]=\frac{1/4}{1/2}=\frac{1}{2}\]
+
+\noindent
+Therefore, $\Pr[A_2|B_2] = \Pr[A_2]$.
+
+\clearpage
+\noindent
+Part (c). Let $A_3$ be the event that exactly one coin lands on heads, and $B_3$ be the event that at least one of the coins lands on tails.
+
+\noindent
+Then, $\Pr[A_3]$ is the probability of getting a exactly one heads tossing two fair coins, which is $\displaystyle\frac{2}{12}=\frac{1}{6}$, since there are two ways: getting a heads on the first coin and a tails on the second, or getting a tails on the first coin and a heads on the second.
+
+\noindent
+One possible example where $\Pr[A_3 \mid B_3] > \Pr[A_3]$ is the event where the first coin lands on tails. In this case, $B_3$ has occurred, since at least one of the coins has landed on tails.
+
+\noindent
+To find $\Pr[A_3 \mid B_3]$, we need to find the probability that the exactly one coin landed on heads, given that at least one of the coins has landed on tails. Since we know that the first coin landed on tails, there is only one way to get exactly on coin to land on heads, which is for the second coin to land on heads. Therefore, $\Pr[A_3 \mid B_3] = \frac{1}{2}$.
+
+\noindent
+Since $\displaystyle\frac{1}{2}>\frac{1}{6}$, we have $\Pr[A_3 \mid B_3] > \Pr[A_3]$.
+\end{solution}
+
+\clearpage
+\begin{problem}[20 points] 
+  There may be several different min-cut sets in a graph. Using the
+  analysis of the randomized min-cut algorithm, argue that there can
+  be at most $n(n - 1)/2$ distinct min-cut sets.
+\end{problem}
+\begin{solution}
+The randomized min-cut algorithm repeatedly contracts edges in the graph until only two nodes remain. The set of edges that are contracted at each step form a cut in the graph, and the algorithm outputs the size of the smallest cut it found.
+
+\noindent
+Now, suppose there are $k$ distinct min-cut sets in the graph.\\
+Let $C_1, C_2, \cdots, C_k$ be these sets. Each of these sets has a size $s_i$, which is the number of edges that need to be cut to separate the graph into two connected components. Since these sets are distinct, we know that $s_1 < s_2 < \dots < s_k$.
+
+\noindent
+Let $n$ be the number of nodes in the graph, and let $m$ be the number of edges. Each of the $k$ distinct min-cut sets must contain at least $s_i$ edges. Therefore, the total number of edges in all of these sets is at least $s_1 + s_2 + \dots + s_k$. However, each edge in the graph can appear in at most one of these sets, since contracting an edge eliminates it from the graph. Therefore, the total number of edges in all of these sets is at most $m$.
+
+\noindent
+Combining these two inequalities,
+\[s_1+s_2+\cdots+s_k\leq m\]
+
+\noindent
+Since each $s_i$ is at least 1, we can lower bound the left-hand side as $s_1+s_2+\dots+s_k\geq k$.
+\[k\leq s_1+s_2+\cdots+s_k\leq m\]
+
+\noindent
+In an undirected graph with $n$ nodes, the maximum number of edges is achieved when each node is connected to all other nodes.
+In this case, each node has $n-1$ edges.
+However, each edge is counted twice, once for each endpoint, so the total number of edges is $\displaystyle\frac{n(n-1)}{2}$.
+Therefore, in an undirected graph with $n$ nodes, the number of edges $m$ is bounded above by $\displaystyle\frac{n(n-1)}{2}$.
+Using this fact,
+\[k\leq s_1+s_2+\cdots+s_k\leq\frac{n(n-1)}{2}\]
+
+\noindent
+This implies that there are at most $\displaystyle\frac{n(n-1)}{2}$ distinct min-cut sets in the graph.
+\end{solution}
+
+\clearpage
+\begin{problem}[20 points] 
+A popular choice for pivot selection in Quicksort is the median of
+three randomly selected elements. Approximate the probability of
+obtaining at worst an $a$-to-$(1-a)$ split in the partition (assuming
+that $a$ is a real number in the range $0<a<1/2$). 
+
+\noindent{}[Hint: Suppose that the median-of-three is the $m$-th smallest element
+of the array. Then it gives at worst an $a$-to-$(1-a)$ split if and
+only if $an \le m\le (1-a)n$. Now count how
+many sets of three elements can lead to the the pivot
+(= median-of-three) being the $m$-th smallest element. ]
+
+\end{problem}
+\begin{solution}
+Assume that the array has $n$ elements.
+The median-of-three pivot selection chooses three elements uniformly at random from the array and selects the median as the pivot.
+Let the median be the $m$-th smallest element of the array.
+
+\noindent
+We want to find the probability that the pivot selection results in an $a$-to-$(1-a)$ split, where $a\in\R$ in the range $0<a<\frac{1}{2}$.
+This happens if and only if the median is between the $(an)$-th and $((1-a)n)$-th smallest elements of the array.
+
+\noindent
+When countint how many sets of three elements can lead to the pivot being the $m$-th smallest element, there are three cases to consider:
+\begin{enumerate}
+    \item The pivot is the smallest element among the three.
+    In this case, there are $n-1$ choices for the second element and $n-2$ choices for the third element, so there are $(n-1)(n-2)$ possible sets of three elements.
+    \item The pivot is the largest element among the three.
+    In this case, there are $n-1$ choices for the first element and $n-2$ choices for the second element, so there are $(n-1)(n-2)$ possible sets of three elements.
+    \item The pivot is the middle element among the three.
+    In this case, there are $n-2$ choices for the first element and $n-3$ choices for the third element, so there are $(n-2)(n-3)$ possible sets of three elements.
+\end{enumerate}
+
+\noindent
+Therefore, the total number of sets of three elements that can lead to the pivot being the $m$-th smallest element is $(n-1)(n-2)+(n-1)(n-2)+(n-2)(n-3)=3n^2-12n+11$.
+
+\noindent
+The probability that the median is between the $(an)$-th and $((1-a)n)$-th smallest elements is the ratio of the number of sets of three elements that lead to such a median to the total number of sets of three elements, which is $(2a-1)(n-1)(n-2)+(n-2)(n-3)=(2a-1)(n^2-3n+2)+(n-2)(n-3)$.
+
+\noindent
+Therefore, the probability of obtaining at worst an $a$-to-$(1-a)$ split in the partition is:
+\[\frac{(2a-1)(n^2-3n+2)+(n-2)(n-3)}{3n^2-12n+11}\]
+
+\noindent
+This expression depends on $n$, so it doesn't provide a fixed probability for a given value of $a$.
+However, we can see that the probability approaches $1$ as $n$ grows large, because the numerator grows faster than the denominator.
+Intuitively, as the array gets larger, the pivot selection is less likely to result in a bad split.
+\end{solution}
+\end{document}
